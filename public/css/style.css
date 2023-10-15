@@ -1,0 +1,13 @@
+/* Tambahkan style untuk membuat header fixed */
+.main-header {
+    position: fixed;
+}
+.custom-font {
+    font-size: 20px;
+    font-family: 'Arial', sans-serif; /* Ganti dengan font yang Anda inginkan */
+    /* Atur properti CSS font lainnya sesuai kebutuhan Anda */
+}
+
+
+
+
