@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use App\Models\Category;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -81,4 +82,14 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index');
     }
+    public function destroy(Category $category)
+    {
+        $category->delete();
+
+        Session::flash('success', 'Kategori berhasil dihapus.');
+
+        return redirect()->route('categories.index');
+    }
+    
+
 }

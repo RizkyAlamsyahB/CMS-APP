@@ -57,7 +57,8 @@
                                 <tr>
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $item->title }}</td>
-                                    <td>{{ $item->category->name }}</td>
+                                    <td>{{ optional($item->category)->name ?? '-' }}</td>
+
                                     <td>{{ $item->user->name }}</td>
                                     <td>
                                         <a href="{{ route('news.show', $item->id) }}" class="btn btn-secondary">Details</a>

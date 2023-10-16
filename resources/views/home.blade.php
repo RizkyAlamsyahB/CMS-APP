@@ -16,7 +16,7 @@
                             <strong class="d-flex justify-content-center"
                                 style="font-size:30px">{{ $news->title }}</strong>
                             <br>
-                            <p>Category: {{ $news->category->name }}</p>
+                            <p>Category: {{ $news->category->name ?? '-' }}</p>
                             <p>Author: {{ $news->user->name }}</p>
                             <p>Published on: {{ $news->created_at->format('F d, Y H:i:s') }}</p>
                             <p class="card-text">

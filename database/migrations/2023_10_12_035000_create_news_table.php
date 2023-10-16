@@ -9,8 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -23,6 +22,7 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
+            // Aturan kunci asing: hapus berita saat kategori dihapus
         });
     }
 

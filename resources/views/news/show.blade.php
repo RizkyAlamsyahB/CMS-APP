@@ -15,7 +15,8 @@
                             <h1 class="d-flex justify-content-center">
                                 <strong>{{ $news->title }}</strong>
                             </h1>
-                            <p>Category: {{ $news->category->name }}</p>
+                            <p>Category: {{ optional($news->category)->name ?? '-' }}</p>
+
                             <p>Author: {{ $news->user->name }}</p>
                             <p>Published on: {{ $news->created_at->format('F d, Y H:i:s') }}</p>
                         </div>

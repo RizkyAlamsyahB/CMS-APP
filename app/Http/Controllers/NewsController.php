@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 
 class NewsController extends Controller
@@ -79,17 +80,50 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
+    public function edit($id)
+{
+    $news = News::findOrFail($id);
+    $categories = Category::all();
+
+    return view('news.edit', compact('news', 'categories'));
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+        'category_id' => 'required',
+    ]);
+
+    $news = News::findOrFail($id);
+
+    $news->title = $request->input('title');
+    $news->content = html_entity_decode($request->input('content'));
+    $news->category_id = $request->input('category_id');
+
+    if ($request->file('image-news')) {
+        $request->validate([
+            'image-news' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Mengunggah gambar baru dan mendapatkan path
+        $imageName = $request->file('image-news')->store('images', 'public');
+
+        // Hapus gambar lama (jika ada) dan simpan gambar baru
+        if ($news->image) {
+            Storage::disk('public')->delete($news->image);
+        }
+        $news->image = $imageName;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-    }
+    $news->save();
+
+    session()->flash('success', 'News article updated successfully');
+
+    return redirect()->route('news.index');
+}
+
 
     /**
      * Remove the specified resource from storage.
