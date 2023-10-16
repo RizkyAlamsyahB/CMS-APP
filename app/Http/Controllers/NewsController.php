@@ -23,7 +23,7 @@ class NewsController extends Controller
         $news = News::where('title', 'like', "%$search%")
             ->paginate(2);
 
-        return view('news.index', compact( 'news')) ->with('i', ($news->currentPage() - 1) * 2);
+        return view('news.index', compact('news'))->with('i', ($news->currentPage() - 1) * 2);
     }
 
 
@@ -81,55 +81,70 @@ class NewsController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit($id)
-{
-    $news = News::findOrFail($id);
-    $categories = Category::all();
+    {
+        $news = News::findOrFail($id);
+        $categories = Category::all();
 
-    return view('news.edit', compact('news', 'categories'));
-}
-
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'title' => 'required',
-        'content' => 'required',
-        'category_id' => 'required',
-    ]);
-
-    $news = News::findOrFail($id);
-
-    $news->title = $request->input('title');
-    $news->content = html_entity_decode($request->input('content'));
-    $news->category_id = $request->input('category_id');
-
-    if ($request->file('image-news')) {
-        $request->validate([
-            'image-news' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Mengunggah gambar baru dan mendapatkan path
-        $imageName = $request->file('image-news')->store('images', 'public');
-
-        // Hapus gambar lama (jika ada) dan simpan gambar baru
-        if ($news->image) {
-            Storage::disk('public')->delete($news->image);
-        }
-        $news->image = $imageName;
+        return view('news.edit', compact('news', 'categories'));
     }
 
-    $news->save();
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'category_id' => 'required',
+        ]);
 
-    session()->flash('success', 'News article updated successfully');
+        $news = News::findOrFail($id);
 
-    return redirect()->route('news.index');
-}
+        $news->title = $request->input('title');
+        $news->content = html_entity_decode($request->input('content'));
+        $news->category_id = $request->input('category_id');
+
+        if ($request->file('image-news')) {
+            $request->validate([
+                'image-news' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            // Mengunggah gambar baru dan mendapatkan path
+            $imageName = $request->file('image-news')->store('images', 'public');
+
+            // Hapus gambar lama (jika ada) dan simpan gambar baru
+            if ($news->image) {
+                Storage::disk('public')->delete($news->image);
+            }
+            $news->image = $imageName;
+        }
+
+        $news->save();
+
+        session()->flash('success', 'News article updated successfully');
+
+        return redirect()->route('news.index');
+    }
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $news = News::findOrFail($id);
+
+        if ($news) {
+            // Hapus gambar terkait jika ada
+            if ($news->image) {
+                Storage::disk('public')->delete($news->image);
+            }
+
+            $news->delete();
+
+            session()->flash('success', 'News article deleted successfully');
+        } else {
+            session()->flash('error', 'News article not found');
+        }
+
+        return redirect()->route('news.index');
     }
 }

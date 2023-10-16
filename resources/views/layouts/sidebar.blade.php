@@ -69,15 +69,6 @@
                                 <p>Category</p>
                             </a>
                         </li>
-
-                        <!-- News Category -->
-                        <li class="nav-header">NEWS CATEGORY</li>
-                        <li class="nav-item">
-                            <a href="/news/post-categories" class="nav-link">
-                                <i class="nav-icon fas fa-list"></i>
-                                <p>News Category</p>
-                            </a>
-                        </li>
                     </ul>
                     </li>
                     <!-- Logout (if authenticated) -->

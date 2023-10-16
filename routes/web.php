@@ -23,13 +23,15 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::middleware(['auth'])->resource('dashboard', DashboardController::class);
-Route::middleware(['auth'])->resource('categories', CategoryController::class);
+Route::get('/newsShow/{id}', [NewsController::class, 'show'])->name('newsShow')->middleware('auth');
+// routes/web.php
 
-// Define the NewsController resource route
-Route::middleware(['auth'])->resource('news', NewsController::class);
-
-// Add a specific route for showing a single news article
-Route::get('/newsShow/{id}', [NewsController::class, 'show'])->name('newsShow');
+Route::group([
+    'middleware' => ['auth', 'role:admin'],
+    'prefix' => 'admin',
+], function () {
+    Route::resource('dashboard', DashboardController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('news', NewsController::class);
+});
