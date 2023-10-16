@@ -1,11 +1,12 @@
 <?php
 
+use PHPUnit\Event\Code\Test;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\NewsController;
-use PHPUnit\Event\Code\Test;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,5 @@ Route::group([
     Route::resource('dashboard', DashboardController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('news', NewsController::class);
+    Route::resource('users', UserController::class);
 });

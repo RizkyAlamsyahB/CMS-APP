@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-     
+
 
         Paginator::useBootstrap();
 
@@ -35,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('manage-dashboard', function ($user) {
             return $user->role === 'admin'; // Izin untuk mengakses dashboard
+        });
+
+        Gate::define('manage-users', function ($user) {
+            return $user->role === 'admin'; // Izin untuk mengelola pengguna
         });
 
 

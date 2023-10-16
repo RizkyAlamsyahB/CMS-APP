@@ -76,6 +76,19 @@
                         </li>
                     @endcan
 
+                    @can('manage-users')
+                            <!-- Category -->
+                            <li class="nav-header">USER</li>
+                            <li class="nav-item">
+                                <a href="{{ route('users.index') }}" class="nav-link">
+                                    <i class="nav-icon fas fa-list-ul"></i>
+                                    <p>User</p>
+                                </a>
+                            </li>
+                        </ul>
+                        </li>
+                    @endcan
+
                     <!-- Logout (if authenticated) -->
                     @auth
                         <li class="nav-item">

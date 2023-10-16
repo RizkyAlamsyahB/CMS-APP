@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Category</h1>
+    <div class="row ml-5">
+        <h1 class="m-0 text-dark"><b>Category</b></h1>
     </div>
     <br>
 

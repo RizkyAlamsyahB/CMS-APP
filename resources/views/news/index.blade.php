@@ -2,8 +2,8 @@
 
 @section('content')
 
-<div class="col-sm-6">
-    <h1 class="m-0 text-dark">News</h1>
+<div class="row ml-5">
+    <h1 class="m-0 text-dark"><b>News</b></h1>
 </div>
 <br>
 
