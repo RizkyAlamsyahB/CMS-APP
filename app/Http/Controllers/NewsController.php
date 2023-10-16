@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -32,9 +33,17 @@ class NewsController extends Controller
      */
     public function create()
     {
-        $categories = Category::all(); // Ambil semua kategori
-        return view('news.create', compact('categories'));
+        if (Gate::allows('manage-news')) {
+            // Izinkan admin untuk membuat berita
+            $categories = Category::all(); // Ambil semua kategori
+            return view('news.create', compact('categories'));
+        } else {
+            // Izin ditolak, mungkin ingin menampilkan pesan kesalahan atau mengarahkan pengguna
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki izin untuk membuat berita.');
+        }
     }
+
+
 
     public function store(Request $request)
     {

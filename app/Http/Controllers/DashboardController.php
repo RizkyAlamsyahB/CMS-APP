@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Dashboard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class DashboardController extends Controller
 {
@@ -20,12 +21,18 @@ class DashboardController extends Controller
      }
      public function index()
      {
-         $newsCount = News::count();
-         $userCount = User::count();
-         $categoryCount = Category::count(); // Mengambil jumlah kategori
+         if (Gate::allows('manage-dashboard')) {
+             $newsCount = News::count();
+             $userCount = User::count();
+             $categoryCount = Category::count(); // Mengambil jumlah kategori
 
-         return view('dashboard.index', compact('newsCount', 'userCount', 'categoryCount'));
+             return view('dashboard.index', compact('newsCount', 'userCount', 'categoryCount'));
+         } else {
+             // Izin ditolak, mungkin ingin menampilkan pesan kesalahan atau mengarahkan pengguna
+             return redirect()->route('home')->with('error', 'Anda tidak memiliki izin untuk mengakses dashboard.');
+         }
      }
+
 
 
 

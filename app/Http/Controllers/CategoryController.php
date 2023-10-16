@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,7 +27,13 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('categories.create');
+        if (Gate::allows('manage-categories')) {
+            // Izinkan admin untuk membuat kategori
+            return view('categories.create');
+        } else {
+            // Izin ditolak, mungkin ingin menampilkan pesan kesalahan atau mengarahkan pengguna
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki izin untuk membuat kategori.');
+        }
     }
 
 
@@ -90,6 +97,4 @@ class CategoryController extends Controller
 
         return redirect()->route('categories.index');
     }
-    
-
 }
