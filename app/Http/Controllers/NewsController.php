@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -46,34 +47,36 @@ class NewsController extends Controller
 
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'category_id' => 'required',
-            'image-news' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
-        ]);
+{
+    $request->validate([
+        'title' => 'required',
+        'content' => 'required',
+        'category_id' => 'required',
+        'image-news' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+    ]);
 
-        // Mengunggah gambar dan mendapatkan path
-        if ($request->file('image-news')) {
-            $imageName = $request->file('image-news')->store('images', 'public');
-        }
-
-        $user = auth()->user();
-
-        $news = new News;
-        $news->title = $request->input('title');
-        $news->content = html_entity_decode($request->input('content')); // Menggunakan html_entity_decode untuk menghilangkan paragraf HTML
-        $news->user_id = $user->id;
-        $news->category_id = $request->input('category_id');
-        $news->image = $imageName; // Simpan hanya nama file gambar
-        session()->flash('success', 'News article created successfully');
-
-
-        $news->save();
-
-        return redirect()->route('news.index');
+    // Mengunggah gambar dan mendapatkan path
+    if ($request->file('image-news')) {
+        $imageName = $request->file('image-news')->store('images', 'public');
     }
+
+    $user = auth()->user();
+
+    $news = new News;
+    $news->title = $request->input('title');
+    $news->slug = Str::slug($request->input('title')); // Generate and save the slug
+    $news->content = html_entity_decode($request->input('content'));
+    $news->user_id = $user->id;
+    $news->category_id = $request->input('category_id');
+    $news->image = $imageName;
+
+    session()->flash('success', 'News article created successfully');
+
+    $news->save();
+
+    return redirect()->route('news.index');
+}
+
 
 
     /**

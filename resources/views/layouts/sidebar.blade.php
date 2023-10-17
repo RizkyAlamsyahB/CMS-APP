@@ -25,9 +25,9 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <!-- Dashboard -->
+                <!-- Home -->
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link">
+                    <a href="{{ route('home') }}" class="nav-link active">
                         <i class="  nav-icon fas fa-newspaper"></i>
                         <p>
                             Home
