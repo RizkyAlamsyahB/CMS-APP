@@ -1,23 +1,23 @@
 <?php
 
-use PHPUnit\Event\Code\Test;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| Di sini Anda dapat mendaftarkan rute web untuk aplikasi Anda. Semua rute
+| ini dimuat oleh ServiceProvider dan semuanya akan diberikan ke grup middleware "web".
+| Buat sesuatu yang hebat!
 |
 */
 
@@ -25,11 +25,20 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Autentikasi
 Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::get('/newsShow/{id}', [NewsController::class, 'show'])->name('newsShow')->middleware('auth');
-// routes/web.php
 
+// Rute beranda
+Route::get('/home', [HomeController::class, 'index'])
+    ->name('home')
+    ->middleware('auth');
+
+// Rute tampilkan berita berdasarkan ID
+Route::get('/newsShow/{id}', [NewsController::class, 'show'])
+    ->name('newsShow')
+    ->middleware('auth');
+
+// Grup rute untuk admin
 Route::group([
     'middleware' => ['auth', 'role:admin'],
     'prefix' => 'admin',
@@ -39,5 +48,27 @@ Route::group([
     Route::resource('news', NewsController::class);
     Route::resource('users', UserController::class);
 });
-Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
+
+// Rute login dengan Google
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])
+    ->name('google.login');
+
+// Penanganan pemanggilan balik dari Google setelah otorisasi
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])
+    ->name('google.callback');
+
+// Rute login dengan Facebook
+Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook'])
+    ->name('facebook.login');
+
+// Penanganan pemanggilan balik dari Facebook setelah otorisasi
+Route::get('auth/facebook/callback', [FacebookController::class, 'handleFacebookCallback'])
+    ->name('facebook.callback');
+
+// Rute registrasi dengan Google+
+Route::get('auth/google/signup', [GoogleController::class, 'redirectToGoogleSignup'])
+    ->name('google.signup');
+
+// Penanganan pemanggilan balik dari Google+ setelah otorisasi untuk registrasi
+Route::get('auth/google/signup/callback', [GoogleController::class, 'handleGoogleSignupCallback'])
+    ->name('google.signup.callback');

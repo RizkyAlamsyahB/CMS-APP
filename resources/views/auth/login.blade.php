@@ -54,7 +54,7 @@
 
                         <div class="social-auth-links text-center mb-3">
                             <p>- OR -</p>
-                            <a href="#" class="btn btn-block btn-primary">
+                            <a href="{{route('facebook.login')}}" class="btn btn-block btn-primary">
                                 <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
                             </a>
                             <a href="{{route('google.login')}}" class="btn btn-block btn-danger">
