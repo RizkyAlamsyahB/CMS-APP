@@ -26,12 +26,18 @@ Route::get('/', function () {
 });
 
 // Autentikasi
-Auth::routes();
+Auth::routes([
+    // 'register' => true,
+    'verify' => true
+    // 'reset' => true,
+    // 'confirm' => true,
+    // 'logout' => true,
+]);
 
 // Rute beranda
 Route::get('/home', [HomeController::class, 'index'])
     ->name('home')
-    ->middleware('auth');
+    ->middleware('verified');
 
 // Rute tampilkan berita berdasarkan ID
 Route::get('/newsShow/{id}', [NewsController::class, 'show'])

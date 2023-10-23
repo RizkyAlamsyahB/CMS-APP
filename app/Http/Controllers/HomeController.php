@@ -17,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'verified']); // Tambahkan middleware 'verified' pada constructor HomeController.php.
     }
 
     /**
@@ -30,7 +30,7 @@ class HomeController extends Controller
         $user = Auth::user();
         $name = $user->name;
 
-     
+
         // Fetch news articles
         $newsList = News::all();
         $newsList = News::paginate(2);
