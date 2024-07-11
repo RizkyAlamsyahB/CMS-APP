@@ -36,5 +36,5 @@
     </div>
     @include('layouts.script')
 </body>
-
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </html>

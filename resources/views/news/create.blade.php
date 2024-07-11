@@ -32,12 +32,21 @@
             <br>
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea name="content" id="content" rows="10" required>
-                    Start to Your Content!
-                </textarea>
+                <textarea id="myeditorinstance">Hello, World!</textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
     </div>
+<script src="https://cdn.tiny.cloud/1/smde32rjrd6shockaewcz54x8lwtnp5rrx15lnqs9ta93i5w/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        // Initialize TinyMCE after the textarea is loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            tinymce.init({
+                selector: '#myeditorinstance',
+                plugins: 'code table lists',
+                toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
+            });
+        });
+    </script>
 @endsection

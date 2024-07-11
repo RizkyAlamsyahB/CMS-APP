@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FacebookController;
@@ -53,6 +54,8 @@ Route::group([
     Route::resource('categories', CategoryController::class);
     Route::resource('news', NewsController::class);
     Route::resource('users', UserController::class);
+    // routes/web.php
+Route::post('/image/upload', ImageController::class . '@upload');
 });
 
 // Rute login dengan Google

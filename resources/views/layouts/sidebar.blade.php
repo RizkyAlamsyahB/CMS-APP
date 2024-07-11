@@ -22,91 +22,90 @@
 
         <!-- Sidebar Menu -->
         {{-- Home --}}
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                data-accordion="false">
-                <!-- Home -->
-                <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link active">
-                        <i class="  nav-icon fas fa-newspaper"></i>
-                        <p>
-                            Home
-                        </p>
-                    </a>
-                </li>
+       <!-- Sidebar Menu -->
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+        data-accordion="false">
+        <!-- Home -->
+        <li class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}">
+            <a href="{{ route('home') }}" class="nav-link">
+                <i class="nav-icon fas fa-newspaper"></i>
+                <p>
+                    Home
+                </p>
+            </a>
+        </li>
 
-                @can('manage-dashboard')
-                    <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                            data-accordion="false">
-                            <!-- Dashboard -->
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard.index') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                                    <p>
-                                        Dashboard
-                                    </p>
-                                </a>
-                            </li>
-                        @endcan
+        @can('manage-dashboard')
+            <!-- Dashboard -->
+            <li class="nav-item {{ request()->routeIs('dashboard.index') ? 'active' : '' }}">
+                <a href="{{ route('dashboard.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>
+                        Dashboard
+                    </p>
+                </a>
+            </li>
+        @endcan
 
-                        @can('manage-news')
-                            <!-- News  -->
-                            <li class="nav-header">NEWS</li>
-                            <li class="nav-item has-treeview">
-                                <a href="{{ route('news.index') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-newspaper"></i>
-                                    <p>
-                                        News
-                                    </p>
-                                </a>
-                            </li>
-                        @endcan
+        @can('manage-news')
+            <!-- News  -->
+            <li class="nav-header">NEWS</li>
+            <li class="nav-item has-treeview {{ request()->routeIs('news.index') ? 'active' : '' }}">
+                <a href="{{ route('news.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-newspaper"></i>
+                    <p>
+                        News
+                    </p>
+                </a>
+            </li>
+        @endcan
 
-                        @can('manage-categories')
-                            <!-- Category -->
-                            <li class="nav-header">CATEGORY</li>
-                            <li class="nav-item">
-                                <a href="{{ route('categories.index') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-list-ul"></i>
-                                    <p>Category</p>
-                                </a>
-                            </li>
-                        </ul>
-                        </li>
-                    @endcan
+        @can('manage-categories')
+            <!-- Category -->
+            <li class="nav-header">CATEGORY</li>
+            <li class="nav-item {{ request()->routeIs('categories.index') ? 'active' : '' }}">
+                <a href="{{ route('categories.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-list-ul"></i>
+                    <p>Category</p>
+                </a>
+            </li>
+        @endcan
 
-                    @can('manage-users')
-                            <!-- Category -->
-                            <li class="nav-header">USER</li>
-                            <li class="nav-item">
-                                <a href="{{ route('users.index') }}" class="nav-link">
-                                    <i class="nav-icon fas fa-list-ul"></i>
-                                    <p>User</p>
-                                </a>
-                            </li>
-                        </ul>
-                        </li>
-                    @endcan
+        @can('manage-users')
+            <!-- User -->
+            <li class="nav-header">USER</li>
+            <li class="nav-item {{ request()->routeIs('users.index') ? 'active' : '' }}">
+                <a href="{{ route('users.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-list-ul"></i>
+                    <p>User</p>
+                </a>
+            </li>
+        @endcan
 
-                    <!-- Logout (if authenticated) -->
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fa fa-sign-out-alt fa-lg" aria-hidden="true"></i>
-                                {{ __('Logout') }}
-                            </a>
+        <!-- Logout (if authenticated) -->
+        @auth
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa fa-sign-out-alt fa-lg" aria-hidden="true"></i>
+                    {{ __('Logout') }}
+                </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </li>
-                    @endauth
-            </ul>
-        </nav>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </li>
+        @endauth
+    </ul>
+</nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 </aside>
 {{-- END SIDEBAR --}}
+<style>
+    .nav-sidebar .active {
+    background-color: #007BFF; 
+}
+</style>
